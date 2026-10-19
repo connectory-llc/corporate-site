@@ -1,0 +1,83 @@
+---
+import { CONTACT } from '../../data/contact';
+import ButtonLink from '../ButtonLink.astro';
+import SectionHeading from '../SectionHeading.astro';
+
+const hasChannel = Boolean(CONTACT.email || CONTACT.formUrl);
+---
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="panel" data-reveal>
+      <div class="glow" aria-hidden="true"></div>
+      <SectionHeading id="contact-title" eyebrow="Contact" title="お問い合わせ" align="center" />
+      {hasChannel ? (
+        <>
+          <p class="message">CONNECTORY へのご相談やご質問は、こちらからお寄せください。</p>
+          <div class="actions">
+            {CONTACT.formUrl && <ButtonLink href={CONTACT.formUrl}>お問い合わせフォーム</ButtonLink>}
+            {CONTACT.email && (
+              <ButtonLink href={`mailto:${CONTACT.email}`} variant={CONTACT.formUrl ? 'secondary' : 'primary'}>
+                {CONTACT.email}
+              </ButtonLink>
+            )}
+          </div>
+        </>
+      ) : (
+        <p class="message">
+          <span>お問い合わせ窓口は現在準備中です。</span>
+          <span>準備が整いしだい、こちらでご案内します。</span>
+        </p>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-block: 0 var(--section-space);
+  }
+
+  .panel {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 24px;
+    padding: clamp(56px, 8vw, 104px) clamp(24px, 5vw, 64px);
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-blue-tint) 0%, var(--color-turquoise-tint) 100%);
+    text-align: center;
+  }
+
+  .glow {
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 60%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .panel > :not(.glow) {
+    position: relative;
+  }
+
+  .message {
+    color: var(--color-text-sub);
+  }
+
+  .message span {
+    display: inline-block;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 8px;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import { COMPANY_PROFILE } from '../../data/company';
+import SectionHeading from '../SectionHeading.astro';
+
+const items = COMPANY_PROFILE.filter((item) => item.value);
+---
+<section id="company" class="company" aria-labelledby="company-title">
+  <div class="container inner">
+    <div data-reveal>
+      <SectionHeading id="company-title" eyebrow="Company" title="会社概要" />
+    </div>
+
+    <dl data-reveal>
+      {items.map((item) => (
+        <div class="row">
+          <dt>{item.label}</dt>
+          <dd>{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .company {
+    padding-block: var(--section-space);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 10em minmax(0, 1fr);
+    align-items: baseline;
+    gap: 8px 24px;
+    padding-block: 28px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .row:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  dt {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 800px) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding-block: 20px;
+    }
+  }
+</style>
