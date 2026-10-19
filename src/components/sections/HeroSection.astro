@@ -1,8 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import symbol from '../../assets/brand/connectory-symbol.png';
-import { SITE_NAME, SITE_NAME_KANA } from '../../data/site';
+import { SITE_NAME } from '../../data/site';
 import ButtonLink from '../ButtonLink.astro';
+import Wordmark from '../Wordmark.astro';
 
 const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
 ---
@@ -30,7 +31,7 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
       </div>
     </div>
 
-    <figure class="visual">
+    <div class="visual">
       <div class="halo" aria-hidden="true"></div>
       <Image
         src={symbol}
@@ -41,8 +42,8 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
         fetchpriority="high"
         class="symbol"
       />
-      <figcaption>{SITE_NAME_KANA}</figcaption>
-    </figure>
+      <span class="ring-label" aria-hidden="true"><Wordmark /></span>
+    </div>
   </div>
 </section>
 
@@ -139,6 +140,9 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
   }
 
   .visual {
+    --halo-inset: 4%;
+    --disc-inset-ratio: 0.14;
+
     position: relative;
     display: grid;
     place-items: center;
@@ -147,7 +151,7 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
 
   .halo {
     position: absolute;
-    inset: 4%;
+    inset: var(--halo-inset);
     border-radius: 50%;
     background:
       radial-gradient(circle at 50% 50%, rgb(255 255 255 / 100%) 0%, rgb(255 255 255 / 0%) 70%),
@@ -158,7 +162,7 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
   .halo::after {
     content: '';
     position: absolute;
-    inset: 14%;
+    inset: calc(var(--disc-inset-ratio) * 100%);
     border-radius: 50%;
     background: rgb(255 255 255 / 72%);
     box-shadow: var(--shadow-lift);
@@ -169,12 +173,11 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
     width: 48%;
   }
 
-  figcaption {
+  /* 内側の円と重ならないよう、ドーナツの帯の太さの中央に文字を置く */
+  .ring-label {
     position: absolute;
-    bottom: 26%;
-    font-size: 0.75rem;
-    letter-spacing: 0.4em;
-    color: var(--color-text-muted);
+    bottom: calc(var(--halo-inset) + (100% - 2 * var(--halo-inset)) * var(--disc-inset-ratio) / 2);
+    translate: 0 50%;
   }
 
   @media (max-width: 900px) {

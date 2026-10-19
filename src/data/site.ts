@@ -1,5 +1,4 @@
 export const SITE_NAME = 'CONNECTORY';
-export const SITE_NAME_KANA = 'コネクトリー';
 export const CATCHPHRASE = 'つくる喜びを、誰かの喜びにつなぐ。';
 export const SITE_TITLE = `${SITE_NAME} | ${CATCHPHRASE}`;
 export const SITE_DESCRIPTION =
