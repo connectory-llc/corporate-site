@@ -8,7 +8,6 @@ const hasChannel = Boolean(CONTACT.email || CONTACT.formUrl);
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <div class="container">
     <div class="panel" data-reveal>
-      <div class="glow" aria-hidden="true"></div>
       <SectionHeading id="contact-title" eyebrow="Contact" title="お問い合わせ" align="center" />
       {hasChannel ? (
         <>
@@ -44,25 +43,18 @@ const hasChannel = Boolean(CONTACT.email || CONTACT.formUrl);
     gap: 24px;
     padding: clamp(56px, 8vw, 104px) clamp(24px, 5vw, 64px);
     overflow: hidden;
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, var(--color-blue-tint) 0%, var(--color-turquoise-tint) 100%);
+    background: var(--color-bg-soft);
     text-align: center;
   }
 
-  .glow {
+  .panel::before {
+    content: '';
     position: absolute;
-    top: -40%;
-    right: -10%;
-    width: 480px;
-    height: 480px;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 60%);
-    filter: blur(60px);
-    pointer-events: none;
-  }
-
-  .panel > :not(.glow) {
-    position: relative;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--gradient-brand);
   }
 
   .message {
