@@ -1,0 +1,265 @@
+---
+import { Image } from 'astro:assets';
+import symbol from '../../assets/brand/connectory-symbol.png';
+import { SITE_NAME } from '../../data/site';
+import SectionHeading from '../SectionHeading.astro';
+
+const SYMBOL_DISPLAY_WIDTH = 240;
+const HIGH_DENSITY = 2;
+
+const ORIGINS = [
+  {
+    word: 'CONNECT',
+    meaning: 'つなぐ',
+    paragraphs: [
+      '人と人、アイデアと技術、作り手と使い手。',
+      'さまざまなものを技術の力でつなぎ、新しい価値を生み出していくこと。サービスを利用してくださる方の声や想いにも寄り添い、ものづくりを通じて誰かの喜びにつなげていくこと。',
+    ],
+  },
+  {
+    word: 'FACTORY',
+    meaning: 'つくる',
+    paragraphs: [
+      'ものづくりが好きな人たちが集まり、自由な発想でアイデアを形にする場所。',
+      '単なる大量生産の工場ではなく、職人が一つひとつの制作物に向き合う「工房」のような存在を目指しています。自由に挑戦できる環境と、制作物の品質に責任を持つ姿勢の両方を大切にします。',
+    ],
+  },
+];
+
+const STORY = [
+  'CONNECTORY という名前には、「つなぐ」と「つくる」という 2 つの想いを込めています。',
+  'ものづくりが好きな仲間が集まり、自由な発想でアイデアを形にする。そして、作ることを楽しむだけでなく、使ってくださる方の想いにも寄り添い、より良いものへと育てていく。',
+  '作り手の喜びと、使い手の喜び。その両方を、技術とものづくりの力でつないでいきたい。CONNECTORY は、そんな想いから生まれた名前です。',
+];
+
+const SYMBOL_MEANINGS = [
+  {
+    term: '∞',
+    title: 'つながりと可能性',
+    description:
+      '大きな C と小さな o がつながり、全体として無限大を思わせる形になっています。人と人、アイデアと技術など、さまざまなつながりを表しています。',
+  },
+  {
+    term: 'Co',
+    title: 'CONNECTORY の頭文字',
+    description: '社名の冒頭にある「Co」をモチーフにしています。',
+  },
+  {
+    term: '組み継ぎ',
+    title: '技術と創造、職人の心',
+    description:
+      '中央の接合部は、日本の伝統的な木工技術「組み継ぎ」をイメージしています。異なる部材を丁寧に組み合わせ、一つのものを作り上げる職人の技術を象徴しています。',
+  },
+];
+---
+<section id="name" class="name" aria-labelledby="name-title">
+  <div class="container">
+    <div data-reveal>
+      <SectionHeading id="name-title" eyebrow="Our Name" title="名前に込めた想い" align="center" />
+    </div>
+
+    <p class="formula" data-reveal aria-hidden="true">
+      <span>CONNECT</span>
+      <span class="times">×</span>
+      <span>FACTORY</span>
+    </p>
+
+    <div class="origins">
+      {ORIGINS.map((origin) => (
+        <article class="origin" data-reveal>
+          <h3>
+            <span class="word">{origin.word}</span>
+            <span class="meaning">{origin.meaning}</span>
+          </h3>
+          {origin.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </article>
+      ))}
+    </div>
+
+    <div class="story" data-reveal>
+      {STORY.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+
+    <div class="symbol-card" data-reveal>
+      <div class="symbol-visual">
+        <Image
+          src={symbol}
+          alt={`${SITE_NAME} のロゴのシンボル`}
+          widths={[SYMBOL_DISPLAY_WIDTH, SYMBOL_DISPLAY_WIDTH * HIGH_DENSITY]}
+          sizes={`${SYMBOL_DISPLAY_WIDTH}px`}
+          class="symbol"
+        />
+      </div>
+      <div class="symbol-body">
+        <h3 class="symbol-title">ロゴに込めた意味</h3>
+        <dl>
+          {SYMBOL_MEANINGS.map((meaning) => (
+            <div class="meaning-row">
+              <dt>{meaning.term}</dt>
+              <dd>
+                <strong>{meaning.title}</strong>
+                <span>{meaning.description}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .name {
+    padding-block: var(--section-space);
+    background: var(--color-bg-soft);
+  }
+
+  .formula {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0 0.4em;
+    margin-top: clamp(40px, 6vw, 64px);
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1rem + 6vw, 6rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+  }
+
+  .times {
+    font-weight: 400;
+    background: var(--gradient-brand);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .origins {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 3vw, 32px);
+    margin-top: clamp(48px, 7vw, 88px);
+  }
+
+  .origin {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: clamp(28px, 4vw, 48px);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+    color: var(--color-text-sub);
+  }
+
+  .origin h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .word {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    color: var(--color-blue);
+  }
+
+  .meaning {
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    color: var(--color-text);
+  }
+
+  .story {
+    display: grid;
+    gap: 20px;
+    max-width: 40em;
+    margin: clamp(64px, 9vw, 120px) auto 0;
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 2.2;
+    text-align: center;
+  }
+
+  .symbol-card {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+    margin-top: clamp(64px, 9vw, 120px);
+    padding: clamp(32px, 5vw, 64px);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .symbol-visual {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 30% 30%, var(--color-blue-tint), transparent 60%),
+      radial-gradient(circle at 75% 70%, var(--color-turquoise-tint), transparent 60%),
+      var(--color-bg-soft);
+  }
+
+  .symbol {
+    width: 60%;
+  }
+
+  .symbol-title {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  }
+
+  dl {
+    display: grid;
+    margin-top: 24px;
+  }
+
+  .meaning-row {
+    display: grid;
+    grid-template-columns: 5.5em minmax(0, 1fr);
+    gap: 16px;
+    padding-block: 20px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .meaning-row:last-child {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  dt {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+    line-height: 1.8;
+    color: var(--color-blue);
+  }
+
+  dd {
+    display: grid;
+    gap: 4px;
+    font-size: 0.9375rem;
+    color: var(--color-text-sub);
+  }
+
+  dd strong {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 800px) {
+    .origins,
+    .symbol-card {
+      grid-template-columns: 1fr;
+    }
+
+    .story {
+      text-align: left;
+    }
+  }
+</style>
