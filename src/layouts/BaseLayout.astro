@@ -1,4 +1,7 @@
 ---
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { OG_IMAGE_HEIGHT, OG_IMAGE_PATH, OG_IMAGE_WIDTH, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from '../data/site';
@@ -16,8 +19,9 @@ const { title, description = SITE_DESCRIPTION, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_TITLE;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 const ogImageUrl = new URL(withBase(OG_IMAGE_PATH), Astro.site).href;
-const GOOGLE_FONTS_URL =
-  'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;500;600&display=swap';
+// 日本語フォントは数 MB あるため自前で配信せず、文字の範囲ごとに分割して配る配信元から読み込む
+const JAPANESE_FONT_STYLESHEET_URL =
+  'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap';
 ---
 <!doctype html>
 <html lang="ja">
@@ -42,7 +46,7 @@ const GOOGLE_FONTS_URL =
     <link rel="apple-touch-icon" href={withBase('apple-touch-icon.png')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={GOOGLE_FONTS_URL} />
+    <link rel="stylesheet" href={JAPANESE_FONT_STYLESHEET_URL} />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
