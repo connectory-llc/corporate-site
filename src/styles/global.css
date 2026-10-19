@@ -36,6 +36,13 @@
   box-sizing: border-box;
 }
 
+/* 狭い画面ではヘッダーの導線がロゴの下に回って 2 段になるため、アンカーで移動したときの余白も広げる */
+@media (max-width: 640px) {
+  :root {
+    --header-height: 88px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);

@@ -19,4 +19,18 @@ test.describe('サイト内の導線', () => {
     await page.keyboard.press('Tab');
     await expect(page.getByRole('link', { name: '本文へスキップ' })).toBeFocused();
   });
+
+  test('ヘッダーから移動した先のセクションの上端がヘッダーに隠れない', async ({ page }) => {
+    // スムーズスクロールの途中で判定しないよう、即座にスクロールさせる
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    const nav = page.getByRole('navigation', { name: 'ページ内のセクション' });
+    for (const label of SECTION_LINKS) {
+      await nav.getByRole('link', { name: label, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`#${label.toLowerCase()}$`));
+      const headerBottom = await page.locator('.site-header').evaluate((element) => element.getBoundingClientRect().bottom);
+      const sectionTop = await page.locator(`#${label.toLowerCase()}`).evaluate((element) => element.getBoundingClientRect().top);
+      // セクションの位置は小数の px になるため、目に見えない 1px 未満の差は丸めて比べる
+      expect(Math.round(sectionTop)).toBeGreaterThanOrEqual(Math.round(headerBottom));
+    }
+  });
 });
