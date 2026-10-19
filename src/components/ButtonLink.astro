@@ -1,0 +1,82 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
+  variant?: 'primary' | 'secondary';
+}
+
+const { variant = 'primary', class: className, ...attrs } = Astro.props;
+---
+<a class:list={['button', variant, className]} {...attrs}>
+  <slot />
+  <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+    <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+</a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s var(--ease-out);
+  }
+
+  .arrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .button:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  .primary {
+    background: var(--color-ink);
+    color: var(--color-on-ink);
+    box-shadow: 0 10px 24px -12px rgb(15 27 45 / 50%);
+  }
+
+  .primary:hover {
+    background: var(--color-blue-deep);
+    color: var(--color-on-ink);
+    transform: translateY(-1px);
+  }
+
+  .secondary {
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .secondary:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue-deep);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button,
+    .arrow {
+      transition: none;
+    }
+
+    .button:hover,
+    .button:hover .arrow {
+      transform: none;
+    }
+  }
+</style>
