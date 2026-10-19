@@ -16,7 +16,7 @@ const parts = SITE_NAME.split(new RegExp(`(${ACCENT_LETTER})`)).filter(Boolean);
 <style>
   .wordmark {
     font-family: var(--font-display);
-    font-size: 1.125rem;
+    font-size: var(--wordmark-size, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.1em;
     line-height: 1;

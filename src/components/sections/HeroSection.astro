@@ -144,6 +144,7 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
     --disc-inset-ratio: 0.14;
 
     position: relative;
+    container-type: inline-size;
     display: grid;
     place-items: center;
     aspect-ratio: 1;
@@ -175,6 +176,8 @@ const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
 
   /* 内側の円と重ならないよう、ドーナツの帯の太さの中央に文字を置く */
   .ring-label {
+    --wordmark-size: clamp(0.75rem, 4.8cqi, 1.125rem);
+
     position: absolute;
     bottom: calc(var(--halo-inset) + (100% - 2 * var(--halo-inset)) * var(--disc-inset-ratio) / 2);
     translate: 0 50%;
