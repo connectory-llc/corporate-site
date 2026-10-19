@@ -261,5 +261,18 @@ const SYMBOL_MEANINGS = [
     .story {
       text-align: left;
     }
+
+    .symbol {
+      width: 44%;
+    }
+  }
+
+  /* 1 行に収まらない幅では「CONNECT ×」で折り返してしまうため、3 段に積んで対の形を保つ */
+  @media (max-width: 560px) {
+    .formula {
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
   }
 </style>
