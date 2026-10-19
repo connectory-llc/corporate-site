@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import symbol from '../assets/brand/connectory-symbol.png';
-import { SITE_NAME } from '../data/site';
+import Wordmark from './Wordmark.astro';
 
 interface Props {
   tone?: 'default' | 'inverse';
@@ -12,7 +12,7 @@ const SYMBOL_HEIGHT = 26;
 const HIGH_DENSITY = 2;
 const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
 ---
-<span class:list={['logo', tone]}>
+<span class="logo">
   <Image
     src={symbol}
     alt=""
@@ -22,7 +22,7 @@ const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
     sizes={`${symbolWidth}px`}
     loading="eager"
   />
-  <span class="wordmark">{SITE_NAME}</span>
+  <Wordmark tone={tone} />
 </span>
 
 <style>
@@ -30,18 +30,5 @@ const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
     display: inline-flex;
     align-items: center;
     gap: 12px;
-  }
-
-  .wordmark {
-    font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    line-height: 1;
-    color: var(--color-text);
-  }
-
-  .inverse .wordmark {
-    color: var(--color-on-ink);
   }
 </style>

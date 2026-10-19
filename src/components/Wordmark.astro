@@ -1,0 +1,25 @@
+---
+import { SITE_NAME } from '../data/site';
+
+interface Props {
+  tone?: 'default' | 'inverse';
+}
+
+const { tone = 'default' } = Astro.props;
+---
+<span class:list={['wordmark', tone]}>{SITE_NAME}</span>
+
+<style>
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .inverse {
+    color: var(--color-on-ink);
+  }
+</style>
