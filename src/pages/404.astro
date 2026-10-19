@@ -1,0 +1,50 @@
+---
+import ButtonLink from '../components/ButtonLink.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+<BaseLayout title="ページが見つかりません" noindex>
+  <section class="not-found" aria-labelledby="not-found-title">
+    <div class="container inner">
+      <p class="code">404</p>
+      <h1 id="not-found-title">ページが見つかりません</h1>
+      <p>お探しのページは、移動または削除された可能性があります。</p>
+      <ButtonLink href={withBase('/')}>トップページへ戻る</ButtonLink>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: clamp(96px, 14vw, 180px);
+    background: linear-gradient(180deg, var(--color-bg-soft) 0%, var(--color-bg) 100%);
+  }
+
+  .inner {
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+    text-align: center;
+    color: var(--color-text-sub);
+  }
+
+  .code {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 3rem + 5vw, 7rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    background: var(--gradient-brand);
+    background-clip: text;
+    color: transparent;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    color: var(--color-text);
+  }
+
+  .inner :global(.button) {
+    margin-top: 16px;
+  }
+</style>

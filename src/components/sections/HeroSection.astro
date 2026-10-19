@@ -1,0 +1,204 @@
+---
+import { Image } from 'astro:assets';
+import symbol from '../../assets/brand/connectory-symbol.png';
+import { SITE_NAME } from '../../data/site';
+import ButtonLink from '../ButtonLink.astro';
+import Wordmark from '../Wordmark.astro';
+
+const SYMBOL_WIDTHS = [320, 480, 640, symbol.width];
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="glow glow-blue" aria-hidden="true"></div>
+  <div class="glow glow-turquoise" aria-hidden="true"></div>
+
+  <div class="container inner">
+    <div class="copy">
+      <p class="eyebrow">
+        <span class="brand">{SITE_NAME}</span>
+        <span class="divider" aria-hidden="true"></span>
+        <span>CONNECT × FACTORY</span>
+      </p>
+      <h1 id="hero-title">
+        <span>つくる喜びを、</span><span>誰かの喜びにつなぐ。</span>
+      </h1>
+      <p class="lead">
+        <span>私たちは、ものづくりが好きです。</span>
+        <span>自由な発想と好奇心を大切にしながら、さまざまなアイデアを形にしています。</span>
+      </p>
+      <div class="actions">
+        <ButtonLink href="#about">私たちについて</ButtonLink>
+        <ButtonLink href="#products" variant="secondary">プロダクトを見る</ButtonLink>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="halo" aria-hidden="true"></div>
+      <Image
+        src={symbol}
+        alt={`${SITE_NAME} のロゴ`}
+        widths={SYMBOL_WIDTHS}
+        sizes="(max-width: 900px) 135px, 200px"
+        loading="eager"
+        fetchpriority="high"
+        class="symbol"
+      />
+      <span class="ring-label" aria-hidden="true"><Wordmark /></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 10vw, 136px) clamp(88px, 12vw, 160px);
+    background: linear-gradient(180deg, var(--color-bg-soft) 0%, var(--color-bg) 100%);
+  }
+
+  /* ロゴのグラデーションを背景で繰り返さないよう、色はごく薄い光としてだけ置く */
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .glow-blue {
+    top: -20%;
+    right: -10%;
+    width: 640px;
+    height: 640px;
+    background: rgb(11 95 214 / 10%);
+  }
+
+  .glow-turquoise {
+    bottom: -30%;
+    left: -12%;
+    width: 560px;
+    height: 560px;
+    background: rgb(24 195 203 / 10%);
+  }
+
+  .inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: center;
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  .eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--color-text-sub);
+  }
+
+  .brand {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .divider {
+    width: 32px;
+    height: 1px;
+    background: var(--gradient-brand);
+  }
+
+  h1 {
+    margin-top: 28px;
+    font-size: clamp(1.875rem, 1.1rem + 2.8vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.08em;
+    font-feature-settings: 'palt';
+  }
+
+  h1 span,
+  .lead span {
+    display: inline-block;
+  }
+
+  .lead {
+    max-width: 34em;
+    margin-top: 32px;
+    font-size: clamp(0.9375rem, 0.88rem + 0.3vw, 1.0625rem);
+    line-height: 2.1;
+    color: var(--color-text-sub);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .visual {
+    --halo-inset: 4%;
+    --disc-inset-ratio: 0.14;
+
+    position: relative;
+    container-type: inline-size;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+  }
+
+  .halo {
+    position: absolute;
+    inset: var(--halo-inset);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, rgb(255 255 255 / 100%) 0%, rgb(255 255 255 / 0%) 70%),
+      conic-gradient(from 200deg, rgb(11 95 214 / 8%), rgb(24 195 203 / 10%), rgb(11 95 214 / 8%));
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 80%);
+  }
+
+  .halo::after {
+    content: '';
+    position: absolute;
+    inset: calc(var(--disc-inset-ratio) * 100%);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 72%);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .symbol {
+    position: relative;
+    width: 48%;
+  }
+
+  /* 内側の円と重ならないよう、ドーナツの帯の太さの中央に文字を置く */
+  .ring-label {
+    --wordmark-size: clamp(0.75rem, 4.8cqi, 1.125rem);
+
+    position: absolute;
+    bottom: calc(var(--halo-inset) + (100% - 2 * var(--halo-inset)) * var(--disc-inset-ratio) / 2);
+    translate: 0 50%;
+  }
+
+  @media (max-width: 900px) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
+
+    /* 提供ロゴは原寸に近い倍率で表示すると縁の段差が見えるため、狭い画面では小さめに置く */
+    .visual {
+      order: -1;
+      width: min(72%, 280px);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .actions {
+      flex-direction: column;
+    }
+  }
+</style>

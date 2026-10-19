@@ -1,0 +1,105 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+
+const PARAGRAPHS = [
+  '思いついたことを試し、仲間とともに新しいものを生み出していく。',
+  'そして、生み出したものは、使ってくださる方の立場に立ち、丁寧に磨き上げていく。',
+  '私たちのものづくりが、誰かの暮らしを少し便利にしたり、笑顔につながったりする。',
+  'そんな小さな喜びを積み重ねながら、より豊かな社会を目指していきたいと考えています。',
+];
+---
+<section id="about" class="about" aria-labelledby="about-title">
+  <div class="container inner">
+    <div class="heading" data-reveal>
+      <SectionHeading id="about-title" eyebrow="About" title="ものづくりへの姿勢" />
+    </div>
+
+    <div class="body">
+      <div class="statement" data-reveal>
+        {PARAGRAPHS.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <figure class="origin" data-reveal>
+        <figcaption>創業の原点</figcaption>
+        <blockquote>
+          <p>何かを作ることがとても好きです。</p>
+          <p>
+            私の制作物や技術で皆様を少しでも笑顔にしたり、楽にしたりすることで、より社会を豊かにできればと考え、日々精進して参ります。
+          </p>
+        </blockquote>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding-block: var(--section-space);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  .heading {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-height) + 48px);
+  }
+
+  .statement {
+    display: grid;
+    gap: 20px;
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+    line-height: 2.1;
+  }
+
+  .origin {
+    position: relative;
+    margin-top: clamp(48px, 6vw, 72px);
+    padding: clamp(28px, 4vw, 44px);
+    border-radius: var(--radius);
+    background: var(--color-bg-soft);
+    overflow: hidden;
+  }
+
+  .origin::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--gradient-brand);
+  }
+
+  figcaption {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--color-text-muted);
+  }
+
+  blockquote {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+    color: var(--color-text-sub);
+  }
+
+  blockquote p:first-child {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 800px) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
+
+    .heading {
+      position: static;
+    }
+  }
+</style>

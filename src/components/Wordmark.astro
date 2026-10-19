@@ -1,0 +1,40 @@
+---
+import { SITE_NAME } from '../data/site';
+
+interface Props {
+  tone?: 'default' | 'inverse';
+}
+
+const { tone = 'default' } = Astro.props;
+const ACCENT_LETTER = 'O';
+const parts = SITE_NAME.split(new RegExp(`(${ACCENT_LETTER})`)).filter(Boolean);
+---
+<span class:list={['wordmark', tone]}>
+  {parts.map((part) => (part === ACCENT_LETTER ? <span class="accent">{part}</span> : part))}
+</span>
+
+<style>
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: var(--wordmark-size, 1.125rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .inverse {
+    color: var(--color-on-ink);
+  }
+
+  .accent {
+    background: linear-gradient(135deg, var(--color-blue) 15%, var(--color-turquoise) 85%);
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* 2 つ目の O は色の流れを逆にし、シンボルの ∞ のように左右で呼応させる */
+  .accent ~ .accent {
+    background-image: linear-gradient(135deg, var(--color-turquoise) 15%, var(--color-blue) 85%);
+  }
+</style>
