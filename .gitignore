@@ -1,0 +1,11 @@
+.vscode
+.idea
+.claude
+.DS_Store
+
+node_modules
+dist
+.astro
+
+test-results
+playwright-report
