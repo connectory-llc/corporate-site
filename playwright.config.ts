@@ -24,8 +24,9 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
+    // CI では公開するのと同じ成果物を確かめるため、build ジョブが作った dist/ をそのまま配信する。
     // 既定ではバックグラウンドで起動して終了してしまうため、ロックを使わずフォアグラウンドで動かす
-    command: `npm run build && npx astro preview --port ${PORT} --ignore-lock`,
+    command: `${process.env.CI ? '' : 'npm run build && '}npx astro preview --port ${PORT} --ignore-lock`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
   },
