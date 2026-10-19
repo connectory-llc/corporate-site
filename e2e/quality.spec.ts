@@ -23,4 +23,14 @@ test.describe('表示品質', () => {
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     expect(results.violations).toEqual([]);
   });
+
+  test('スクロールせずに印刷しても、フェードイン前の要素を含めてすべて印刷される', async ({ page }) => {
+    await page.goto('');
+    await page.emulateMedia({ media: 'print' });
+    const opacities = await page.locator('[data-reveal]').evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).opacity),
+    );
+    expect(opacities.length).toBeGreaterThan(0);
+    expect(opacities.every((opacity) => opacity === '1')).toBe(true);
+  });
 });

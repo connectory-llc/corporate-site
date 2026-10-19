@@ -159,6 +159,14 @@ a:hover {
   transform: none;
 }
 
+@media print {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
