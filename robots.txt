@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://connectory-llc.github.io/corporate-site/sitemap.xml
