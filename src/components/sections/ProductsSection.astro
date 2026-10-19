@@ -1,0 +1,50 @@
+---
+import { PRODUCTS } from '../../data/products';
+import ProductCard from '../ProductCard.astro';
+import SectionHeading from '../SectionHeading.astro';
+---
+<section id="products" class="products" aria-labelledby="products-title">
+  <div class="container">
+    <div class="intro" data-reveal>
+      <SectionHeading id="products-title" eyebrow="Products" title="私たちがつくっているもの" />
+      <p class="lead">CONNECTORY では、Web サービスやアプリケーションを企画・開発・運営しています。</p>
+    </div>
+
+    <ul class="grid">
+      {PRODUCTS.map((product) => (
+        <li data-reveal>
+          <ProductCard product={product} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .products {
+    padding-block: var(--section-space);
+    background: var(--color-bg-soft);
+  }
+
+  .intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px 48px;
+  }
+
+  .lead {
+    max-width: 28em;
+    color: var(--color-text-sub);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(16px, 2.4vw, 28px);
+    margin: clamp(40px, 6vw, 72px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>
