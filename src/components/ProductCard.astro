@@ -11,7 +11,7 @@ const LOGO_SIZE = 56;
 const SCREENSHOT_WIDTH = 480;
 const HIGH_DENSITY = 2;
 ---
-<article class="card">
+<article class="card" style={`--logo-size: ${LOGO_SIZE}px`}>
   <div class="head">
     {product.logo ? (
       <Image src={product.logo} alt="" width={LOGO_SIZE} height={LOGO_SIZE} class="logo" />
@@ -81,8 +81,8 @@ const HIGH_DENSITY = 2;
 
   .logo {
     flex: none;
-    width: 56px;
-    height: 56px;
+    width: var(--logo-size);
+    height: var(--logo-size);
     border-radius: 14px;
   }
 

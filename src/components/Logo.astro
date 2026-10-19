@@ -20,7 +20,6 @@ const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
     height={SYMBOL_HEIGHT}
     widths={[symbolWidth, symbolWidth * HIGH_DENSITY]}
     sizes={`${symbolWidth}px`}
-    class="symbol"
     loading="eager"
   />
   <span class="wordmark">{SITE_NAME}</span>
@@ -31,11 +30,6 @@ const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
     display: inline-flex;
     align-items: center;
     gap: 12px;
-  }
-
-  .symbol {
-    width: auto;
-    height: 26px;
   }
 
   .wordmark {

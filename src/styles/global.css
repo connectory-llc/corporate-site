@@ -9,7 +9,6 @@
   --color-blue: #0b5fd6;
   --color-blue-deep: #0340b8;
   --color-turquoise: #18c3cb;
-  --color-teal-deep: #0897b4;
   --color-blue-tint: #eaf2fd;
   --color-turquoise-tint: #e6f8f8;
   --color-ink: #0f1b2d;
@@ -117,15 +116,6 @@ a:hover {
   width: min(100%, var(--content-width) + var(--gutter) * 2);
   margin-inline: auto;
   padding-inline: var(--gutter);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 .skip-link {
