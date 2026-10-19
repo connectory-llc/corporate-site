@@ -85,8 +85,8 @@ const SYMBOL_MEANINGS = [
         <Image
           src={symbol}
           alt={`${SITE_NAME} のロゴのシンボル`}
-          widths={[SYMBOL_DISPLAY_WIDTH, SYMBOL_DISPLAY_WIDTH * HIGH_DENSITY]}
-          sizes={`${SYMBOL_DISPLAY_WIDTH}px`}
+          widths={[SYMBOL_DISPLAY_WIDTH, SYMBOL_DISPLAY_WIDTH * HIGH_DENSITY, symbol.width]}
+          sizes={`(max-width: 800px) 40vw, ${SYMBOL_DISPLAY_WIDTH}px`}
           class="symbol"
         />
       </div>
