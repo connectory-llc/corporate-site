@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import symbol from '../assets/brand/connectory-symbol.png';
+import { SITE_NAME } from '../data/site';
+
+interface Props {
+  tone?: 'default' | 'inverse';
+}
+
+const { tone = 'default' } = Astro.props;
+const SYMBOL_HEIGHT = 26;
+const HIGH_DENSITY = 2;
+const symbolWidth = Math.round((SYMBOL_HEIGHT * symbol.width) / symbol.height);
+---
+<span class:list={['logo', tone]}>
+  <Image
+    src={symbol}
+    alt=""
+    width={symbolWidth}
+    height={SYMBOL_HEIGHT}
+    widths={[symbolWidth, symbolWidth * HIGH_DENSITY]}
+    sizes={`${symbolWidth}px`}
+    class="symbol"
+    loading="eager"
+  />
+  <span class="wordmark">{SITE_NAME}</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .symbol {
+    width: auto;
+    height: 26px;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .inverse .wordmark {
+    color: var(--color-on-ink);
+  }
+</style>

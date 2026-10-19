@@ -1,0 +1,158 @@
+:root {
+  --color-bg: #ffffff;
+  --color-bg-soft: #f5f8fb;
+  --color-surface: #ffffff;
+  --color-text: #0f1b2d;
+  --color-text-sub: #4a5669;
+  --color-text-muted: #6b7789;
+  --color-line: #e2e8ef;
+  --color-blue: #0b5fd6;
+  --color-blue-deep: #0340b8;
+  --color-turquoise: #18c3cb;
+  --color-teal-deep: #0897b4;
+  --color-blue-tint: #eaf2fd;
+  --color-turquoise-tint: #e6f8f8;
+  --color-ink: #0f1b2d;
+  --color-on-ink: #f5f8fb;
+  --color-on-ink-sub: #a9b4c4;
+  --gradient-brand: linear-gradient(110deg, var(--color-blue) 0%, var(--color-turquoise) 100%);
+  --font-sans: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  --font-display: 'Outfit', var(--font-sans);
+  --radius-sm: 10px;
+  --radius: 20px;
+  --radius-lg: 32px;
+  --shadow-soft: 0 1px 2px rgb(15 27 45 / 4%), 0 12px 32px -12px rgb(15 27 45 / 12%);
+  --shadow-lift: 0 2px 4px rgb(15 27 45 / 4%), 0 24px 48px -16px rgb(11 95 214 / 18%);
+  --content-width: 1120px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --section-space: clamp(96px, 12vw, 168px);
+  --header-height: 72px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-blue);
+  text-underline-offset: 0.25em;
+}
+
+a:hover {
+  color: var(--color-blue-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--color-blue-tint);
+}
+
+.container {
+  width: min(100%, var(--content-width) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+  color: var(--color-on-ink);
+}
+
+/* スクリプトが動かない環境では内容を隠したままにしないよう、html に js クラスがあるときだけ初期状態を隠す */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
