@@ -9,10 +9,7 @@ npm ci
 npm run dev        # 開発サーバー
 npm run check      # 型チェック
 npm run build      # dist/ に書き出す
-npm run test:e2e   # ビルドしてから Playwright で確かめる
 ```
-
-E2E を初めて動かすときは `npx playwright install chromium` でブラウザを入れておく。`npm run test:e2e` を実行すると、ページ全体のスクリーンショットが `test-results/screenshots/` に保存される。
 
 ## 内容を更新する
 
@@ -27,6 +24,6 @@ E2E を初めて動かすときは `npx playwright install chromium` でブラ�
 
 ## 公開
 
-main に push すると GitHub Actions がビルドと E2E を実行し、成果物を `gh-pages` ブランチに push する。リポジトリの Settings → Pages で、公開元を `gh-pages` ブランチのルートにしておく。
+main に push すると GitHub Actions が型チェックとビルドを実行し、成果物を `gh-pages` ブランチに push する。リポジトリの Settings → Pages で、公開元を `gh-pages` ブランチのルートにしておく。
 
 独自ドメインに移るときは、`astro.config.ts` の `site` をドメインに差し替えて `base` を消し、`public/CNAME` にドメインを書く。
