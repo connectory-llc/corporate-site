@@ -22,4 +22,5 @@
 - 独自ドメインに移るときは `astro.config.ts` の `site` を差し替えて `base` を消し、`public/CNAME` を置く。名刺の表面の QR コードも `site` から組んだ URL を指すため、刷った名刺は古い URL のままになる
 - `package.json` の `overrides` で fflate を 0.8 系に固定しているのは、satori が依存する 0.7 系に既知の脆弱性があるため。satori 側が更新されるまで外さない
 - 名刺のページ（`src/business-card/`）は個人の連絡先を載せるため、`astro.config.ts` のインテグレーションで開発サーバーにだけ追加している。`src/pages` に移すと公開サイトに出る。個人情報と顔写真は `holder.local.json` と `photo.*` に置き、コミットしない
+- 名刺の裏面は `products.ts` で URL のあるプロダクトを並べ、2 つで高さを使い切っている。lumirio などに URL を入れると QR コードが入りきらず断裁線で切れるため、名刺の組み方も見直す
 - OGP 画像は欧文フォントだけで描いている。日本語を入れるなら数 MB の日本語フォントをリポジトリに持つ必要がある
