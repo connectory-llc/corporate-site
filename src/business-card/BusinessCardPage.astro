@@ -469,6 +469,9 @@ const hasContact = holder.address || holder.email || holder.phone;
 
     .bleed {
       box-shadow: none;
+    }
+
+    .bleed:not(:last-child) {
       break-after: page;
     }
 
