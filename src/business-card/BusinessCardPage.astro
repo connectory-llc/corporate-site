@@ -1,0 +1,484 @@
+---
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+import { Image } from 'astro:assets';
+import symbol from '../assets/brand/connectory-symbol.png';
+import Wordmark from '../components/Wordmark.astro';
+import { COMPANY_PROFILE } from '../data/company';
+import { PRODUCTS } from '../data/products';
+import { SITE_NAME } from '../data/site';
+import { JAPANESE_FONT_STYLESHEET_URL } from '../lib/fonts';
+import { withBase } from '../lib/url';
+import '../styles/global.css';
+import { CARD_HOLDER, CARD_PHOTO } from './holder';
+import { renderQrSvg } from './qr';
+
+const PRINT_DPI = 300;
+const MM_PER_INCH = 25.4;
+const SYMBOL_HEIGHT_MM = 6;
+const PHOTO_WIDTH_MM = 17;
+const PHOTO_HEIGHT_MM = 21;
+const PRODUCT_LOGO_MM = 6;
+const toPrintPixels = (mm: number) => Math.round((mm / MM_PER_INCH) * PRINT_DPI);
+
+const companyName = COMPANY_PROFILE.find((item) => item.label === '会社名')?.value;
+const siteUrl = new URL(withBase('/'), Astro.site).href;
+const siteQr = await renderQrSvg(siteUrl);
+const products = await Promise.all(
+  PRODUCTS.filter((product) => product.url).map(async (product) => ({
+    ...product,
+    host: new URL(product.url!).host,
+    qr: await renderQrSvg(product.url!),
+  })),
+);
+
+const holder = CARD_HOLDER;
+const symbolHeight = toPrintPixels(SYMBOL_HEIGHT_MM);
+const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
+const hasContact = holder.address || holder.email || holder.phone;
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>名刺 | {SITE_NAME}</title>
+    <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={JAPANESE_FONT_STYLESHEET_URL} />
+  </head>
+  <body>
+    <main
+      class="sheet"
+      style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm`}
+    >
+      <section class="bleed" aria-label="表面">
+        <div class="card front">
+          <div class="identity">
+            <span class="logo">
+              <Image src={symbol} alt="" width={symbolWidth} height={symbolHeight} />
+              <Wordmark />
+            </span>
+            {companyName && <p class="company">{companyName}</p>}
+          </div>
+
+          <div class="person">
+            {holder.title && <p class="title">{holder.title}</p>}
+            {holder.name && <p class="name">{holder.name}</p>}
+            {holder.nameRoman && <p class="roman">{holder.nameRoman}</p>}
+          </div>
+
+          {hasContact && (
+            <dl class="contact">
+              {holder.address && (
+                <div>
+                  <dt>Address</dt>
+                  <dd>
+                    {holder.postalCode && <span>〒{holder.postalCode} </span>}
+                    {holder.address}
+                  </dd>
+                </div>
+              )}
+              {holder.email && (
+                <div>
+                  <dt>Mail</dt>
+                  <dd class="latin">{holder.email}</dd>
+                </div>
+              )}
+              {holder.phone && (
+                <div>
+                  <dt>Tel</dt>
+                  <dd class="latin">{holder.phone}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+
+          <div class="aside">
+            {CARD_PHOTO && (
+              <Image
+                src={CARD_PHOTO}
+                alt=""
+                width={toPrintPixels(PHOTO_WIDTH_MM)}
+                height={toPrintPixels(PHOTO_HEIGHT_MM)}
+                fit="cover"
+                class="photo"
+              />
+            )}
+            <figure class="qr-block">
+              <span class="qr" set:html={siteQr} />
+              <figcaption>Website</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="bleed" aria-label="裏面">
+        <div class="card back">
+          <header class="back-head">
+            <p class="eyebrow">Products</p>
+            <span class="back-brand"><Wordmark /></span>
+          </header>
+
+          <ul class="products">
+            {products.map((product) => (
+              <li>
+                {product.logo && (
+                  <Image
+                    src={product.logo}
+                    alt=""
+                    width={toPrintPixels(PRODUCT_LOGO_MM)}
+                    height={toPrintPixels(PRODUCT_LOGO_MM)}
+                    class="product-logo"
+                  />
+                )}
+                <div class="product-text">
+                  <p class="product-name">{product.name}</p>
+                  {product.tagline && <p class="tagline">{product.tagline}</p>}
+                  <p class="host">{product.host}</p>
+                </div>
+                <span class="qr" set:html={product.qr} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <aside class="notes">
+      <p>91 × 55 mm の名刺に、塗り足し 3 mm を加えた 97 × 61 mm で 1 面ずつ印刷する。</p>
+      <p>Chrome の印刷で「PDF に保存」を選び、余白を「なし」、「背景のグラフィック」をオンにする。</p>
+      <p>
+        載せる内容は src/business-card/holder.local.json（holder.example.json を複製して作る）と
+        src/business-card/photo.jpg に置く。どちらもコミットしない。
+      </p>
+    </aside>
+  </body>
+</html>
+
+<style>
+  :root {
+    --card-width: 91mm;
+    --card-height: 55mm;
+    --bleed: 3mm;
+    --safe: 5mm;
+    --preview-scale: 2;
+  }
+
+  body {
+    background: var(--color-bg-soft);
+    line-height: 1.5;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .sheet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12mm;
+    padding: 12mm;
+    zoom: var(--preview-scale);
+  }
+
+  /* Chrome で PDF にすると、インラインのまま文字で切り抜いたグラデーションが O の上に細い線として漏れる */
+  .sheet :global(.accent) {
+    display: inline-block;
+  }
+
+  /* 断裁がずれても縁に白い筋が出ないよう、色は塗り足しの外端まで広げる。面は塗らず、ぼかした薄い光にとどめる */
+  .bleed {
+    padding: var(--bleed);
+    background:
+      radial-gradient(circle at 100% 0%, rgb(11 95 214 / 7%), transparent 45%),
+      radial-gradient(circle at 0% 100%, rgb(24 195 203 / 8%), transparent 45%),
+      var(--color-bg);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .card {
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: var(--safe);
+    overflow: hidden;
+    /* 画面ではどこで断裁されるかを見せ、印刷では消す */
+    outline: 0.1mm dashed var(--color-line);
+  }
+
+  .front {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 4mm;
+  }
+
+  .identity {
+    grid-column: 1;
+  }
+
+  .logo {
+    --wordmark-size: 3.2mm;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 2mm;
+  }
+
+  .logo img {
+    width: auto;
+    height: var(--symbol-height);
+  }
+
+  .company {
+    margin-top: 1.2mm;
+    font-size: 1.9mm;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  .person {
+    grid-column: 1;
+    align-self: center;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1.6mm;
+    font-size: 2.1mm;
+    letter-spacing: 0.08em;
+    color: var(--color-text-sub);
+  }
+
+  .title::before {
+    content: '';
+    width: 3.5mm;
+    height: 0.35mm;
+    border-radius: 0.35mm;
+    background: var(--gradient-brand);
+  }
+
+  .name {
+    margin-top: 1.2mm;
+    font-size: 4.8mm;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1.3;
+    font-feature-settings: 'palt';
+  }
+
+  .roman {
+    margin-top: 0.8mm;
+    font-family: var(--font-display);
+    font-size: 2mm;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-sub);
+  }
+
+  .contact {
+    grid-column: 1;
+    display: grid;
+    gap: 0.5mm;
+    font-size: 1.9mm;
+    letter-spacing: 0.04em;
+    color: var(--color-text-sub);
+  }
+
+  .contact div {
+    display: grid;
+    grid-template-columns: 11mm 1fr;
+  }
+
+  .contact dt {
+    font-family: var(--font-display);
+    font-size: 1.6mm;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.9;
+    color: var(--color-blue);
+  }
+
+  .latin {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+  }
+
+  .aside {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .photo {
+    width: var(--photo-width);
+    height: var(--photo-height);
+    object-fit: cover;
+    border-radius: 1.2mm;
+  }
+
+  .qr-block {
+    display: grid;
+    justify-items: center;
+    gap: 0.8mm;
+    margin-left: auto;
+  }
+
+  .qr {
+    display: block;
+    width: 12mm;
+    height: 12mm;
+  }
+
+  .qr :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .qr-block figcaption {
+    font-family: var(--font-display);
+    font-size: 1.4mm;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .back {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+  }
+
+  .back-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6mm;
+    font-family: var(--font-display);
+    font-size: 1.9mm;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-blue);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 3.5mm;
+    height: 0.35mm;
+    border-radius: 0.35mm;
+    background: var(--gradient-brand);
+  }
+
+  .back-brand {
+    --wordmark-size: 2.2mm;
+
+    display: flex;
+  }
+
+  .products {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .products li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2.6mm;
+  }
+
+  .products li + li {
+    padding-top: 2.6mm;
+    border-top: 0.15mm solid var(--color-line);
+  }
+
+  .product-logo {
+    width: var(--product-logo);
+    height: var(--product-logo);
+    border-radius: 1.4mm;
+  }
+
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 3mm;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+
+  .tagline {
+    margin-top: 0.6mm;
+    font-size: 1.8mm;
+    letter-spacing: 0.04em;
+    color: var(--color-text-sub);
+  }
+
+  .host {
+    margin-top: 0.4mm;
+    font-family: var(--font-display);
+    font-size: 1.7mm;
+    letter-spacing: 0.08em;
+    color: var(--color-blue);
+  }
+
+  .notes {
+    max-width: 640px;
+    margin: 0 auto 48px;
+    padding-inline: 16px;
+    font-size: 0.875rem;
+    line-height: 1.9;
+    color: var(--color-text-sub);
+  }
+
+  @page {
+    size: 97mm 61mm;
+    margin: 0;
+  }
+
+  @media print {
+    body {
+      background: none;
+    }
+
+    .sheet {
+      display: block;
+      padding: 0;
+      zoom: 1;
+    }
+
+    .bleed {
+      box-shadow: none;
+      break-after: page;
+    }
+
+    .card {
+      outline: none;
+    }
+
+    .notes,
+    astro-dev-toolbar {
+      display: none;
+    }
+  }
+</style>
