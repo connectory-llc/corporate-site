@@ -6,3 +6,7 @@
 node_modules
 dist
 .astro
+
+# 名刺に載せる個人情報と顔写真は公開リポジトリに入れない
+src/business-card/holder.local.json
+src/business-card/photo.*
