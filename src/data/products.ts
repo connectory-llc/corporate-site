@@ -23,6 +23,7 @@ export const PRODUCTS: Product[] = [
   {
     name: 'Kiyakuto',
     logo: kiyakutoLogo,
+    tagline: '利用規約の管理・運用プラットフォーム',
     summary: '利用規約の作成・バージョン管理・同意取得を一元管理するプラットフォームです。',
     url: 'https://kiyakuto.com',
   },
