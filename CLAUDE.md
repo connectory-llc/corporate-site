@@ -19,7 +19,7 @@
 - E2E テストは書かない。CI も型チェックとビルドだけにしている
 - GitHub Pages の `/corporate-site` 配下で公開しているため、サイト内の URL は `withBase()`（`src/lib/url.ts`）を通して組み立てる。ルート相対のパスを直書きするとリンク切れになる
 - `robots.txt` はホストのルートにないとクローラーに読まれないため、`/corporate-site` 配下にある間は効いていない。独自ドメインに移ると効くようになる
-- 独自ドメインに移るときは `astro.config.ts` の `site` を差し替えて `base` を消し、`public/CNAME` を置く
+- 独自ドメインに移るときは `astro.config.ts` の `site` を差し替えて `base` を消し、`public/CNAME` を置く。名刺の表面の QR コードも `site` から組んだ URL を指すため、刷った名刺は古い URL のままになる
 - `package.json` の `overrides` で fflate を 0.8 系に固定しているのは、satori が依存する 0.7 系に既知の脆弱性があるため。satori 側が更新されるまで外さない
 - 名刺のページ（`src/business-card/`）は個人の連絡先を載せるため、`astro.config.ts` のインテグレーションで開発サーバーにだけ追加している。`src/pages` に移すと公開サイトに出る。個人情報と顔写真は `holder.local.json` と `photo.*` に置き、コミットしない
 - OGP 画像は欧文フォントだけで描いている。日本語を入れるなら数 MB の日本語フォントをリポジトリに持つ必要がある
