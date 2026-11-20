@@ -92,13 +92,19 @@ import Logo from './Logo.astro';
       gap: 4px;
     }
 
-    /* 導線が 5 つあり、幅 320px 前後の端末では 1 行に収まりきらないため、はみ出した分は横にスクロールさせる */
+    /* 導線が 5 つあり、さらに狭い端末で収まりきらなかったときだけ横にスクロールさせる */
     nav {
       max-width: 100%;
       overflow-x: auto;
       /* スクロールの枠で、ホバー時に文字の下に出る線が切れないようにする */
       padding-bottom: 8px;
       margin-bottom: -8px;
+      /* 常に出るスクロールバーの分だけヘッダーが --header-height より高くなり、アンカーで移動した先が隠れるため */
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
     }
 
     ul {
@@ -108,6 +114,17 @@ import Logo from './Logo.astro';
     nav a {
       font-size: 0.75rem;
       white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 360px) {
+    ul {
+      gap: 10px;
+    }
+
+    nav a {
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
     }
   }
 </style>
