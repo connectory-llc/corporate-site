@@ -8,7 +8,7 @@ import Logo from './Logo.astro';
     <a href={withBase('/')} class="home" aria-label="CONNECTORY トップへ">
       <Logo />
     </a>
-    <nav aria-label="ページ内のセクション">
+    <nav aria-label="サイト内">
       <ul>
         {NAV_ITEMS.map((item) => (
           <li><a href={withBase(item.href)}>{item.label}</a></li>
