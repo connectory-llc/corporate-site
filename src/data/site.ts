@@ -12,6 +12,7 @@ export const OG_IMAGE_HEIGHT = 630;
 export const NAV_ITEMS = [
   { href: '#about', label: 'About' },
   { href: '#products', label: 'Products' },
+  { href: '#members', label: 'Members' },
   { href: '#company', label: 'Company' },
   { href: '#contact', label: 'Contact' },
 ] as const;
