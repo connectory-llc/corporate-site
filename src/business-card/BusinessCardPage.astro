@@ -163,18 +163,11 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
               <ul class="products">
                 {products.map((product) => (
                   <li>
-                    {product.logo && (
-                      <Image
-                        src={product.logo}
-                        alt=""
-                        width={toPrintPixels(PRODUCT_LOGO_MM)}
-                        height={toPrintPixels(PRODUCT_LOGO_MM)}
-                        class="product-logo"
-                      />
-                    )}
+                    {/* アイコンが決まるまでは載せず、あとから入れても組みが変わらないよう枠だけ取っておく */}
+                    <span class="product-logo" aria-hidden="true" />
                     <div class="product-text">
                       <p class="product-name">{product.name}</p>
-                      {product.tagline && <p class="tagline">{product.tagline}</p>}
+                      {product.catchphrase && <p class="tagline">{product.catchphrase}</p>}
                       <p class="host">{product.host}</p>
                     </div>
                     <span class="qr" set:html={product.qr} />
