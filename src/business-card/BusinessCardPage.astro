@@ -20,6 +20,7 @@ const SYMBOL_HEIGHT_MM = 6;
 const PHOTO_WIDTH_MM = 17;
 const PHOTO_HEIGHT_MM = 21;
 const PRODUCT_LOGO_MM = 6;
+const AVATAR_MM = 7;
 const toPrintPixels = (mm: number) => Math.round((mm / MM_PER_INCH) * PRINT_DPI);
 
 const companyName = COMPANY_PROFILE.find((item) => item.label === '会社名')?.value;
@@ -52,7 +53,7 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
   <body>
     <main
       class="sheet"
-      style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm`}
+      style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm; --avatar: ${AVATAR_MM}mm`}
     >
       {holders.map((holder) => (
         <>
@@ -96,6 +97,28 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
                     </div>
                   )}
                 </dl>
+              )}
+
+              {holder.links && holder.links.length > 0 && (
+                <div class="social">
+                  {holder.avatar && (
+                    <Image
+                      src={holder.avatar}
+                      alt=""
+                      width={toPrintPixels(AVATAR_MM)}
+                      height={toPrintPixels(AVATAR_MM)}
+                      class="avatar"
+                    />
+                  )}
+                  <dl>
+                    {holder.links.map((link) => (
+                      <div>
+                        <dt>{link.label}</dt>
+                        <dd class="latin">{link.account}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
               )}
 
               <div class="aside">
@@ -157,7 +180,7 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
       <p>
         載せる内容は 1 人ずつ src/business-card/holders/ に、同じ名前の JSON（holder.example.json を複製して作る）と
         顔写真で置く。顔写真は 17 × 21 mm の比率で中央を切り抜くため、顔と肩が収まるよう切り出しておく。
-        holders/ はコミットしない。
+        holders/ はコミットしない。ファイル名を src/data/members.ts の slug にそろえると、名前・SNS のアカウント・アイコンをそこから載せる。
       </p>
     </aside>
   </body>
@@ -215,7 +238,7 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
   .front {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr auto auto;
     column-gap: 4mm;
   }
 
@@ -305,6 +328,45 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     line-height: 1.9;
+    color: var(--color-blue);
+  }
+
+  .social {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-top: 1.6mm;
+    padding-top: 1.6mm;
+    border-top: 0.15mm solid var(--color-line);
+  }
+
+  .avatar {
+    width: var(--avatar);
+    height: var(--avatar);
+    border-radius: 50%;
+  }
+
+  .social dl {
+    display: grid;
+    gap: 0.2mm;
+    font-size: 1.9mm;
+    color: var(--color-text-sub);
+  }
+
+  .social div {
+    display: flex;
+    align-items: baseline;
+    gap: 1.6mm;
+  }
+
+  .social dt {
+    min-width: 9mm;
+    font-family: var(--font-display);
+    font-size: 1.6mm;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--color-blue);
   }
 
