@@ -20,7 +20,8 @@ const SYMBOL_HEIGHT_MM = 6;
 const PHOTO_WIDTH_MM = 17;
 const PHOTO_HEIGHT_MM = 21;
 const PRODUCT_LOGO_MM = 6;
-const AVATAR_MM = 7;
+const AVATAR_MM = 6;
+const SOCIAL_QR_MM = 8;
 const toPrintPixels = (mm: number) => Math.round((mm / MM_PER_INCH) * PRINT_DPI);
 
 const companyName = COMPANY_PROFILE.find((item) => item.label === '会社名')?.value;
@@ -34,7 +35,12 @@ const products = await Promise.all(
   })),
 );
 
-const holders: CardHolder[] = CARD_HOLDERS.length > 0 ? CARD_HOLDERS : [{}];
+const holders = await Promise.all(
+  (CARD_HOLDERS.length > 0 ? CARD_HOLDERS : [{} as CardHolder]).map(async (holder) => ({
+    ...holder,
+    links: await Promise.all((holder.links ?? []).map(async (link) => ({ ...link, qr: await renderQrSvg(link.url) }))),
+  })),
+);
 const symbolHeight = toPrintPixels(SYMBOL_HEIGHT_MM);
 const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
 ---
@@ -53,7 +59,7 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
   <body>
     <main
       class="sheet"
-      style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm; --avatar: ${AVATAR_MM}mm`}
+      style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm; --avatar: ${AVATAR_MM}mm; --social-qr: ${SOCIAL_QR_MM}mm`}
     >
       {holders.map((holder) => (
         <>
@@ -99,7 +105,7 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
                 </dl>
               )}
 
-              {holder.links && holder.links.length > 0 && (
+              {holder.links.length > 0 && (
                 <div class="social">
                   {holder.avatar && (
                     <Image
@@ -118,6 +124,12 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
                       </div>
                     ))}
                   </dl>
+                  {holder.links.map((link) => (
+                    <figure class="qr-block">
+                      <span class="qr" set:html={link.qr} />
+                      <figcaption>{link.label}</figcaption>
+                    </figure>
+                  ))}
                 </div>
               )}
 
@@ -334,8 +346,8 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
   .social {
     grid-column: 1;
     display: flex;
-    align-items: center;
-    gap: 2mm;
+    align-items: flex-end;
+    gap: 1.6mm;
     margin-top: 1.6mm;
     padding-top: 1.6mm;
     border-top: 0.15mm solid var(--color-line);
@@ -347,7 +359,13 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
     border-radius: 50%;
   }
 
+  .social .avatar {
+    align-self: center;
+  }
+
   .social dl {
+    flex: 1;
+    align-self: center;
     display: grid;
     gap: 0.2mm;
     font-size: 1.9mm;
@@ -355,13 +373,25 @@ const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
   }
 
   .social div {
-    display: flex;
+    display: grid;
+    grid-template-columns: 10mm auto;
     align-items: baseline;
-    gap: 1.6mm;
+  }
+
+  .social dd {
+    white-space: nowrap;
+  }
+
+  .social .qr {
+    width: var(--social-qr);
+    height: var(--social-qr);
+  }
+
+  .social .qr-block figcaption {
+    font-size: 1.2mm;
   }
 
   .social dt {
-    min-width: 9mm;
     font-family: var(--font-display);
     font-size: 1.6mm;
     font-weight: 500;
