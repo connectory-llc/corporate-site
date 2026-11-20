@@ -9,10 +9,26 @@ export interface CardHolder {
   address?: string;
   email?: string;
   phone?: string;
+  photo?: ImageMetadata;
 }
 
-const holderFiles = import.meta.glob<CardHolder>('./holder.local.json', { eager: true, import: 'default' });
-const photoFiles = import.meta.glob<ImageMetadata>('./photo.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const holderFiles = import.meta.glob<CardHolder>('./holders/*.json', { eager: true, import: 'default' });
+const photoFiles = import.meta.glob<ImageMetadata>('./holders/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+});
 
-export const CARD_HOLDER: CardHolder = Object.values(holderFiles)[0] ?? {};
-export const CARD_PHOTO: ImageMetadata | undefined = Object.values(photoFiles)[0];
+const toHolderId = (path: string) => path.replace(/^.*\//, '').replace(/\.[^.]+$/, '');
+
+const holders = new Map<string, CardHolder>();
+for (const [path, holder] of Object.entries(holderFiles)) {
+  holders.set(toHolderId(path), { ...holder });
+}
+for (const [path, photo] of Object.entries(photoFiles)) {
+  const id = toHolderId(path);
+  holders.set(id, { ...holders.get(id), photo });
+}
+
+export const CARD_HOLDERS: CardHolder[] = [...holders.entries()]
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, holder]) => holder);

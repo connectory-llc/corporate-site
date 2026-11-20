@@ -11,7 +11,7 @@ import { SITE_NAME } from '../data/site';
 import { JAPANESE_FONT_STYLESHEET_URL } from '../lib/fonts';
 import { withBase } from '../lib/url';
 import '../styles/global.css';
-import { CARD_HOLDER, CARD_PHOTO } from './holder';
+import { CARD_HOLDERS, type CardHolder } from './holder';
 import { renderQrSvg } from './qr';
 
 const PRINT_DPI = 300;
@@ -33,10 +33,9 @@ const products = await Promise.all(
   })),
 );
 
-const holder = CARD_HOLDER;
+const holders: CardHolder[] = CARD_HOLDERS.length > 0 ? CARD_HOLDERS : [{}];
 const symbolHeight = toPrintPixels(SYMBOL_HEIGHT_MM);
 const symbolWidth = Math.round((symbolHeight * symbol.width) / symbol.height);
-const hasContact = holder.address || holder.email || holder.phone;
 ---
 <!doctype html>
 <html lang="ja">
@@ -55,105 +54,110 @@ const hasContact = holder.address || holder.email || holder.phone;
       class="sheet"
       style={`--symbol-height: ${SYMBOL_HEIGHT_MM}mm; --photo-width: ${PHOTO_WIDTH_MM}mm; --photo-height: ${PHOTO_HEIGHT_MM}mm; --product-logo: ${PRODUCT_LOGO_MM}mm`}
     >
-      <section class="bleed" aria-label="表面">
-        <div class="card front">
-          <div class="identity">
-            <span class="logo">
-              <Image src={symbol} alt="" width={symbolWidth} height={symbolHeight} />
-              <Wordmark />
-            </span>
-            {companyName && <p class="company">{companyName}</p>}
-          </div>
+      {holders.map((holder) => (
+        <>
+          <section class="bleed" aria-label="表面">
+            <div class="card front">
+              <div class="identity">
+                <span class="logo">
+                  <Image src={symbol} alt="" width={symbolWidth} height={symbolHeight} />
+                  <Wordmark />
+                </span>
+                {companyName && <p class="company">{companyName}</p>}
+              </div>
 
-          <div class="person">
-            {holder.title && <p class="title">{holder.title}</p>}
-            {holder.name && <p class="name">{holder.name}</p>}
-            {holder.nameRoman && <p class="roman">{holder.nameRoman}</p>}
-          </div>
+              <div class="person">
+                {holder.title && <p class="title">{holder.title}</p>}
+                {holder.name && <p class="name">{holder.name}</p>}
+                {holder.nameRoman && <p class="roman">{holder.nameRoman}</p>}
+              </div>
 
-          {hasContact && (
-            <dl class="contact">
-              {holder.address && (
-                <div>
-                  <dt>Address</dt>
-                  <dd>
-                    {holder.postalCode && <span>〒{holder.postalCode} </span>}
-                    {holder.address}
-                  </dd>
-                </div>
+              {(holder.address || holder.email || holder.phone) && (
+                <dl class="contact">
+                  {holder.address && (
+                    <div>
+                      <dt>Address</dt>
+                      <dd>
+                        {holder.postalCode && <span>〒{holder.postalCode} </span>}
+                        {holder.address}
+                      </dd>
+                    </div>
+                  )}
+                  {holder.email && (
+                    <div>
+                      <dt>Mail</dt>
+                      <dd class="latin">{holder.email}</dd>
+                    </div>
+                  )}
+                  {holder.phone && (
+                    <div>
+                      <dt>Tel</dt>
+                      <dd class="latin">{holder.phone}</dd>
+                    </div>
+                  )}
+                </dl>
               )}
-              {holder.email && (
-                <div>
-                  <dt>Mail</dt>
-                  <dd class="latin">{holder.email}</dd>
-                </div>
-              )}
-              {holder.phone && (
-                <div>
-                  <dt>Tel</dt>
-                  <dd class="latin">{holder.phone}</dd>
-                </div>
-              )}
-            </dl>
-          )}
 
-          <div class="aside">
-            {CARD_PHOTO && (
-              <Image
-                src={CARD_PHOTO}
-                alt=""
-                width={toPrintPixels(PHOTO_WIDTH_MM)}
-                height={toPrintPixels(PHOTO_HEIGHT_MM)}
-                fit="cover"
-                class="photo"
-              />
-            )}
-            <figure class="qr-block">
-              <span class="qr" set:html={siteQr} />
-              <figcaption>Website</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="bleed" aria-label="裏面">
-        <div class="card back">
-          <header class="back-head">
-            <p class="eyebrow">Products</p>
-            <span class="back-brand"><Wordmark /></span>
-          </header>
-
-          <ul class="products">
-            {products.map((product) => (
-              <li>
-                {product.logo && (
+              <div class="aside">
+                {holder.photo && (
                   <Image
-                    src={product.logo}
+                    src={holder.photo}
                     alt=""
-                    width={toPrintPixels(PRODUCT_LOGO_MM)}
-                    height={toPrintPixels(PRODUCT_LOGO_MM)}
-                    class="product-logo"
+                    width={toPrintPixels(PHOTO_WIDTH_MM)}
+                    height={toPrintPixels(PHOTO_HEIGHT_MM)}
+                    fit="cover"
+                    class="photo"
                   />
                 )}
-                <div class="product-text">
-                  <p class="product-name">{product.name}</p>
-                  {product.tagline && <p class="tagline">{product.tagline}</p>}
-                  <p class="host">{product.host}</p>
-                </div>
-                <span class="qr" set:html={product.qr} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+                <figure class="qr-block">
+                  <span class="qr" set:html={siteQr} />
+                  <figcaption>Website</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <section class="bleed" aria-label="裏面">
+            <div class="card back">
+              <header class="back-head">
+                <p class="eyebrow">Products</p>
+                <span class="back-brand"><Wordmark /></span>
+              </header>
+
+              <ul class="products">
+                {products.map((product) => (
+                  <li>
+                    {product.logo && (
+                      <Image
+                        src={product.logo}
+                        alt=""
+                        width={toPrintPixels(PRODUCT_LOGO_MM)}
+                        height={toPrintPixels(PRODUCT_LOGO_MM)}
+                        class="product-logo"
+                      />
+                    )}
+                    <div class="product-text">
+                      <p class="product-name">{product.name}</p>
+                      {product.tagline && <p class="tagline">{product.tagline}</p>}
+                      <p class="host">{product.host}</p>
+                    </div>
+                    <span class="qr" set:html={product.qr} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </>
+      ))}
     </main>
 
     <aside class="notes">
-      <p>91 × 55 mm の名刺に、塗り足し 3 mm を加えた 97 × 61 mm で 1 面ずつ印刷する。</p>
+      <p>91 × 55 mm の名刺に、塗り足し 3 mm を加えた 97 × 61 mm で 1 面ずつ印刷する。1 人につき表面と裏面の 2 ページが並ぶ。</p>
       <p>Chrome の印刷で「PDF に保存」を選び、余白を「なし」、「背景のグラフィック」をオンにする。</p>
       <p>
-        載せる内容は src/business-card/holder.local.json（holder.example.json を複製して作る）と
-        src/business-card/photo.jpg に置く。どちらもコミットしない。
+        載せる内容は 1 人ずつ src/business-card/holders/ に、同じ名前の JSON（holder.example.json を複製して作る）と
+        顔写真で置く。顔写真は 17 × 21 mm の比率で中央を切り抜くため、顔と肩が収まるよう切り出しておく。
+        holders/ はコミットしない。
       </p>
     </aside>
   </body>
