@@ -1,5 +1,5 @@
 import type { ImageMetadata } from 'astro';
-import kiyakutoLogo from '../assets/products/kiyakuto.svg';
+import kiyakutoLogo from '../assets/products/kiyakuto.png';
 import yoyakutoLogo from '../assets/products/yoyakuto.png';
 
 // 概要や URL が決まっていない項目は空のままにする。推測した説明で埋めると、実際のサービスと食い違うおそれがある
