@@ -8,7 +8,7 @@ import Logo from './Logo.astro';
     <a href={withBase('/')} class="home" aria-label="CONNECTORY トップへ">
       <Logo />
     </a>
-    <nav aria-label="ページ内のセクション">
+    <nav aria-label="サイト内">
       <ul>
         {NAV_ITEMS.map((item) => (
           <li><a href={withBase(item.href)}>{item.label}</a></li>
@@ -92,12 +92,39 @@ import Logo from './Logo.astro';
       gap: 4px;
     }
 
+    /* 導線が 5 つあり、さらに狭い端末で収まりきらなかったときだけ横にスクロールさせる */
+    nav {
+      max-width: 100%;
+      overflow-x: auto;
+      /* スクロールの枠で、ホバー時に文字の下に出る線が切れないようにする */
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+      /* 常に出るスクロールバーの分だけヘッダーが --header-height より高くなり、アンカーで移動した先が隠れるため */
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
     ul {
-      gap: 22px;
+      gap: 14px;
     }
 
     nav a {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 360px) {
+    ul {
+      gap: 10px;
+    }
+
+    nav a {
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
     }
   }
 </style>
