@@ -25,8 +25,9 @@ const SOCIAL_QR_MM = 6;
 const toPrintPixels = (mm: number) => Math.round((mm / MM_PER_INCH) * PRINT_DPI);
 
 const companyName = COMPANY_PROFILE.find((item) => item.label === '会社名')?.value;
-const siteUrl = new URL(withBase('/'), Astro.site).href;
-const siteQr = await renderQrSvg(siteUrl);
+// 刷った名刺はあとから直せないため、今公開している GitHub Pages ではなく、移る予定の独自ドメインを指す
+const SITE_URL = 'https://connectory.co.jp/';
+const siteQr = await renderQrSvg(SITE_URL);
 const products = await Promise.all(
   PRODUCTS.filter((product) => product.url).map(async (product) => ({
     ...product,
