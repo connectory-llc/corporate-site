@@ -18,7 +18,7 @@ export const PRODUCTS: Product[] = [
     name: 'Yoyakuto',
     logo: yoyakutoLogo,
     tagline: 'チームの予約受付・日程調整サービス',
-    catchphrase: 'その予約、まだ DM で受けていますか？',
+    catchphrase: 'その予約 まだ DM で受けていますか',
     summary: 'Google カレンダーと連携して、チームの空き時間から予約ページを公開できる日程調整サービスです。',
     url: 'https://yoyakuto.com',
   },
