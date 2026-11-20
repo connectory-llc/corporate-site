@@ -38,7 +38,7 @@ const { member } = Astro.props;
         <ul class="links">
           {member.links.map((link) => (
             <li>
-              <a href={link.url} rel="me noopener">
+              <a href={link.url} rel="me">
                 <span class="label">{link.label}</span>
                 <span class="account">{link.account}</span>
                 <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
