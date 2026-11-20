@@ -17,11 +17,11 @@ npm run build      # dist/ に書き出す
 | --- | --- |
 | 会社概要（設立・所在地・代表社員など） | `src/data/company.ts` |
 | プロダクト | `src/data/products.ts` |
-| メンバー（名刺に載せる名前・SNS・アイコン） | `src/data/members.ts` |
+| メンバー（名前・SNS・アイコン） | `src/data/members.ts` |
 | 問い合わせ先（メールアドレス・フォーム URL） | `src/data/contact.ts` |
 | サイト名・説明文・ナビゲーション | `src/data/site.ts` |
 
-値を空にした項目はページに表示されない。プロダクトのロゴやスクリーンショットは `src/assets/products/`、メンバーのアイコンは `src/assets/members/` に置いて読み込む。
+値を空にした項目はページに表示されない。プロダクトのロゴやスクリーンショットは `src/assets/products/`、メンバーのアイコンは `src/assets/members/` に置いて読み込む。メンバーを足すと、トップページのメンバー欄と `/members/<slug>/` のプロフィールのページが増える。
 
 ## 名刺
 
