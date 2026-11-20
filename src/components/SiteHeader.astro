@@ -92,12 +92,22 @@ import Logo from './Logo.astro';
       gap: 4px;
     }
 
+    /* 導線が 5 つあり、幅 320px 前後の端末では 1 行に収まりきらないため、はみ出した分は横にスクロールさせる */
+    nav {
+      max-width: 100%;
+      overflow-x: auto;
+      /* スクロールの枠で、ホバー時に文字の下に出る線が切れないようにする */
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+
     ul {
-      gap: 22px;
+      gap: 14px;
     }
 
     nav a {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
     }
   }
 </style>
