@@ -18,16 +18,6 @@ export interface Member {
 
 export const MEMBERS: Member[] = [
   {
-    slug: 'taisei-miyaji',
-    name: '宮地 大成',
-    nameRoman: 'Taisei Miyaji',
-    avatar: taiseiMiyajiAvatar,
-    links: [
-      { label: 'X', account: '@lyricrime', url: 'https://x.com/lyricrime' },
-      { label: 'LinkedIn', account: 'taisei-miyaji', url: 'https://www.linkedin.com/in/taisei-miyaji/' },
-    ],
-  },
-  {
     slug: 'nozomi-hosaka',
     name: '保坂 望',
     nameRoman: 'Nozomi Hosaka',
@@ -35,6 +25,16 @@ export const MEMBERS: Member[] = [
     links: [
       { label: 'X', account: '@nonz250', url: 'https://x.com/nonz250' },
       { label: 'LinkedIn', account: 'nozomi-hosaka', url: 'https://www.linkedin.com/in/nozomi-hosaka/' },
+    ],
+  },
+  {
+    slug: 'taisei-miyaji',
+    name: '宮地 大成',
+    nameRoman: 'Taisei Miyaji',
+    avatar: taiseiMiyajiAvatar,
+    links: [
+      { label: 'X', account: '@lyricrime', url: 'https://x.com/lyricrime' },
+      { label: 'LinkedIn', account: 'taisei-miyaji', url: 'https://www.linkedin.com/in/taisei-miyaji/' },
     ],
   },
 ];
