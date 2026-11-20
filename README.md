@@ -27,13 +27,15 @@ npm run build      # dist/ に書き出す
 
 `npm run dev` で開発サーバーを立ち上げ、`/corporate-site/business-card` を開くと名刺の表面と裏面が出る。このページは開発サーバーでだけ開け、公開するサイトには含めない。
 
-1. `src/business-card/holder.example.json` を複製して `src/business-card/holder.local.json` を作り、肩書き・氏名・住所・メールアドレス・電話番号を入れる。空の項目は名刺に出ない
-2. 顔写真を `src/business-card/photo.jpg` に置く。png・webp でもよい。置かなければ写真の枠は出ない
+1. `src/business-card/holder.example.json` を複製して `src/business-card/holders/<slug>.json` を作り、肩書き・住所・メールアドレス・電話番号を入れる。空の項目は名刺に出ない
+2. 顔写真を同じ名前で `src/business-card/holders/<slug>.jpg` に置く。png・webp でもよい。17 × 21 mm の比率で中央を切り抜くので、顔と肩が収まるよう切り出しておく
 3. Chrome の印刷で「PDF に保存」を選び、余白を「なし」、「背景のグラフィック」をオンにして保存する
 
-PDF は仕上がり 91 × 55 mm に塗り足し 3 mm を加えた 97 × 61 mm で、表面と裏面が 1 ページずつになる。会社名・ロゴは `src/data/`、裏面のサービスは `products.ts` で URL のあるものを載せる。表面の QR コードはサイトの URL を指すため、独自ドメインに移ったら刷り直す。
+`<slug>` を `src/data/members.ts` のメンバーとそろえると、名前・SNS のアカウントと QR コード・アイコンはそこから載る。
 
-`holder.local.json` と `photo.*` はリポジトリが公開されているため `.gitignore` に入れてある。コミットしない。
+PDF は仕上がり 91 × 55 mm に塗り足し 3 mm を加えた 97 × 61 mm で、1 人につき表面と裏面の 2 ページが並ぶ。1 人分だけ書き出すときは印刷のページ指定で絞る。会社名・ロゴは `src/data/`、裏面のサービスは `products.ts` で URL のあるものを載せる。表面のサイトの QR コードは、移る予定の独自ドメイン `https://connectory.co.jp/` を指す。
+
+`holders/` はリポジトリが公開されているため `.gitignore` に入れてある。コミットしない。
 
 ## 公開
 
