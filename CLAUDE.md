@@ -19,6 +19,8 @@
 - E2E テストは書かない。CI も型チェックとビルドだけにしている
 - GitHub Pages の `/corporate-site` 配下で公開しているため、サイト内の URL は `withBase()`（`src/lib/url.ts`）を通して組み立てる。ルート相対のパスを直書きするとリンク切れになる
 - `robots.txt` はホストのルートにないとクローラーに読まれないため、`/corporate-site` 配下にある間は効いていない。独自ドメインに移ると効くようになる
-- 独自ドメインに移るときは `astro.config.ts` の `site` を差し替えて `base` を消し、`public/CNAME` を置く
+- 独自ドメインは connectory.co.jp に決まっているが、DNS が整うまでは GitHub Pages で公開する。移るときは `astro.config.ts` の `site` を `https://connectory.co.jp` に差し替えて `base` を消し、`public/CNAME` を置く。名刺の表面の QR コードは、刷り直さずに済むよう先に connectory.co.jp を指しているため、移るまでは読み取ってもサイトが開かない
 - `package.json` の `overrides` で fflate を 0.8 系に固定しているのは、satori が依存する 0.7 系に既知の脆弱性があるため。satori 側が更新されるまで外さない
+- 名刺のページ（`src/business-card/`）は個人の連絡先を載せるため、`astro.config.ts` のインテグレーションで開発サーバーにだけ追加している。`src/pages` に移すと公開サイトに出る。個人情報と顔写真は 1 人ずつ `holders/` に同じ名前の JSON と画像で置き、コミットしない。ファイル名を `src/data/members.ts` の slug にそろえると、名前・SNS のアカウント・アイコンはサイトのメンバー紹介と同じものが載る
+- 名刺の裏面は `products.ts` で URL のあるプロダクトを並べ、2 つで高さを使い切っている。lumirio などに URL を入れると QR コードが入りきらず断裁線で切れるため、名刺の組み方も見直す
 - OGP 画像は欧文フォントだけで描いている。日本語を入れるなら数 MB の日本語フォントをリポジトリに持つ必要がある
