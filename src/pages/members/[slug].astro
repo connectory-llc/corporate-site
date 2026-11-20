@@ -1,0 +1,185 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import Wordmark from '../../components/Wordmark.astro';
+import { MEMBERS, type Member } from '../../data/members';
+import { SITE_NAME } from '../../data/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+
+export const getStaticPaths = (() =>
+  MEMBERS.map((member) => ({ params: { slug: member.slug }, props: { member } }))) satisfies GetStaticPaths;
+
+interface Props {
+  member: Member;
+}
+
+const AVATAR_SIZE = 136;
+const AVATAR_DENSITY = 2;
+
+const { member } = Astro.props;
+---
+<BaseLayout title={member.name} description={`${SITE_NAME} の ${member.name}（${member.nameRoman}）の SNS へのリンクです。`}>
+  <section class="profile" aria-labelledby="profile-name">
+    <div class="container inner">
+      <div class="card">
+        <Image
+          src={member.avatar}
+          alt=""
+          width={AVATAR_SIZE * AVATAR_DENSITY}
+          height={AVATAR_SIZE * AVATAR_DENSITY}
+          class="avatar"
+          style={`--avatar-size: ${AVATAR_SIZE}px`}
+        />
+        <h1 id="profile-name" class="name">{member.name}</h1>
+        <p class="roman">{member.nameRoman}</p>
+        <a href={withBase('/')} class="company"><Wordmark /></a>
+
+        <ul class="links">
+          {member.links.map((link) => (
+            <li>
+              <a href={link.url} rel="me noopener">
+                <span class="label">{link.label}</span>
+                <span class="account">{link.account}</span>
+                <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true">
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .profile {
+    padding-block: clamp(56px, 10vw, 120px);
+    background:
+      radial-gradient(circle at 85% 0%, rgb(11 95 214 / 8%), transparent 40%),
+      radial-gradient(circle at 10% 100%, rgb(24 195 203 / 9%), transparent 45%),
+      var(--color-bg-soft);
+  }
+
+  .inner {
+    display: flex;
+    justify-content: center;
+  }
+
+  .card {
+    display: grid;
+    justify-items: center;
+    width: min(100%, 440px);
+    padding: clamp(32px, 6vw, 48px) clamp(20px, 5vw, 40px);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+  }
+
+  .avatar {
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 4px var(--color-surface), 0 0 0 5px var(--color-line);
+  }
+
+  .name {
+    margin-top: 24px;
+    font-size: 1.5rem;
+    letter-spacing: 0.14em;
+    font-feature-settings: 'palt';
+  }
+
+  .roman {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-sub);
+  }
+
+  .company {
+    --wordmark-size: 0.875rem;
+
+    display: inline-flex;
+    margin-top: 16px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .links {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    min-height: 56px;
+    padding: 0 20px 0 24px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-text);
+    text-align: left;
+    text-decoration: none;
+    transition:
+      border-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .links a:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue-deep);
+  }
+
+  .label {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .account {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-sub);
+  }
+
+  .arrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .links a:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .links a,
+    .arrow {
+      transition: none;
+    }
+
+    .links a:hover .arrow {
+      transform: none;
+    }
+  }
+</style>
