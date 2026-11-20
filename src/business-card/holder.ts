@@ -45,6 +45,12 @@ for (const [id, holder] of holders) {
   });
 }
 
+// サイトのメンバー紹介と同じ順に並べ、メンバーにいない人はそのあとにファイル名の順で続ける
+const memberOrder = (id: string) => {
+  const index = MEMBERS.findIndex((member) => member.slug === id);
+  return index === -1 ? MEMBERS.length : index;
+};
+
 export const CARD_HOLDERS: CardHolder[] = [...holders.entries()]
-  .sort(([a], [b]) => a.localeCompare(b))
+  .sort(([a], [b]) => memberOrder(a) - memberOrder(b) || a.localeCompare(b))
   .map(([, holder]) => holder);
