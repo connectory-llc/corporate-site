@@ -1,0 +1,152 @@
+---
+import { Image } from 'astro:assets';
+import { MEMBERS } from '../../data/members';
+import { withBase } from '../../lib/url';
+import SectionHeading from '../SectionHeading.astro';
+
+const AVATAR_SIZE = 96;
+const AVATAR_DENSITY = 2;
+---
+<section id="members" class="members" aria-labelledby="members-title">
+  <div class="container">
+    <div data-reveal>
+      <SectionHeading id="members-title" eyebrow="Members" title="つくっている人" />
+    </div>
+
+    <ul class="grid" style={`--avatar-size: ${AVATAR_SIZE}px`}>
+      {MEMBERS.map((member) => (
+        <li data-reveal>
+          <article class="card">
+            <a href={withBase(`/members/${member.slug}/`)} class="profile">
+              <Image
+                src={member.avatar}
+                alt=""
+                width={AVATAR_SIZE * AVATAR_DENSITY}
+                height={AVATAR_SIZE * AVATAR_DENSITY}
+                class="avatar"
+              />
+              <span class="names">
+                <span class="name">{member.name}</span>
+                <span class="roman">{member.nameRoman}</span>
+              </span>
+            </a>
+            <ul class="links">
+              {member.links.map((link) => (
+                <li>
+                  <a href={link.url} aria-label={`${member.name}の${link.label}`}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .members {
+    padding-block: var(--section-space);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: clamp(16px, 2.4vw, 28px);
+    margin: clamp(40px, 6vw, 72px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: grid;
+    gap: 24px;
+    height: 100%;
+    padding: 28px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .avatar {
+    flex-shrink: 0;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px var(--color-line);
+  }
+
+  .names {
+    display: grid;
+  }
+
+  .name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    line-height: 1.6;
+    font-feature-settings: 'palt';
+    transition: color 0.2s ease;
+  }
+
+  .profile:hover .name {
+    color: var(--color-blue-deep);
+  }
+
+  .roman {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-sub);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .links a:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue-deep);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .name,
+    .links a {
+      transition: none;
+    }
+  }
+</style>
