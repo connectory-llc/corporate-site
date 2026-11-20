@@ -12,8 +12,8 @@ const businessCardPage: AstroIntegration = {
   },
 };
 
-// 独自ドメインが決まるまでは GitHub Pages の既定の URL で公開する。
-// 決まったら site を差し替えて base を消し、public/CNAME にドメインを書く
+// 独自ドメイン connectory.co.jp の DNS が整うまでは GitHub Pages の既定の URL で公開する。
+// 整ったら site を差し替えて base を消し、public/CNAME にドメインを書く
 export default defineConfig({
   site: 'https://connectory-llc.github.io',
   base: '/corporate-site',
