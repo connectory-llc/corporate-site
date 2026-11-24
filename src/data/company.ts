@@ -6,7 +6,7 @@ export interface CompanyProfileItem {
 
 export const COMPANY_PROFILE: CompanyProfileItem[] = [
   // 正式な表記は登記内容を確認してから確定する
-  { label: '会社名', value: '合同会社CONNECTORY' },
+  { label: '会社名', value: 'CONNECTORY合同会社' },
   { label: '英文社名', value: 'CONNECTORY LLC' },
   { label: '設立' },
   { label: '所在地' },
