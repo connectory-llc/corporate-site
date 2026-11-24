@@ -1,7 +1,8 @@
 import type { APIContext } from 'astro';
+import { MEMBERS } from '../data/members';
 import { withBase } from '../lib/url';
 
-const PATHS = ['/'];
+const PATHS = ['/', ...MEMBERS.map((member) => `/members/${member.slug}/`)];
 
 export function GET(context: APIContext) {
   const urls = PATHS.map((path) => `  <url><loc>${new URL(withBase(path), context.site).href}</loc></url>`).join('\n');
