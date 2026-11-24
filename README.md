@@ -26,4 +26,4 @@ npm run build      # dist/ に書き出す
 
 main に push すると GitHub Actions が型チェックとビルドを実行し、成果物を `gh-pages` ブランチに push する。リポジトリの Settings → Pages で、公開元を `gh-pages` ブランチのルートにしておく。
 
-独自ドメインに移るときは、`astro.config.ts` の `site` をドメインに差し替えて `base` を消し、`public/CNAME` にドメインを書く。
+公開先は `https://connectory.co.jp`。独自ドメインは `public/CNAME` で指定していて、DNS は Cloudflare で管理している。
