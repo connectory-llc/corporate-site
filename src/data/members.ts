@@ -12,6 +12,7 @@ export interface Member {
   slug: string;
   name: string;
   nameRoman: string;
+  title?: string;
   avatar: ImageMetadata;
   links: MemberLink[];
 }
@@ -21,6 +22,7 @@ export const MEMBERS: Member[] = [
     slug: 'nozomi-hosaka',
     name: '保坂 望',
     nameRoman: 'Nozomi Hosaka',
+    title: '代表',
     avatar: nozomiHosakaAvatar,
     links: [
       { label: 'X', account: '@nonz250', url: 'https://x.com/nonz250' },
@@ -31,6 +33,7 @@ export const MEMBERS: Member[] = [
     slug: 'taisei-miyaji',
     name: '宮地 大成',
     nameRoman: 'Taisei Miyaji',
+    title: '代表',
     avatar: taiseiMiyajiAvatar,
     links: [
       { label: 'X', account: '@lyricrime', url: 'https://x.com/lyricrime' },

@@ -31,6 +31,7 @@ const { member } = Astro.props;
           class="avatar"
           style={`--avatar-size: ${AVATAR_SIZE}px`}
         />
+        {member.title && <p class="title">{member.title}</p>}
         <h1 id="profile-name" class="name">{member.name}</h1>
         <p class="roman">{member.nameRoman}</p>
         <a href={withBase('/')} class="company"><Wordmark /></a>
@@ -93,11 +94,23 @@ const { member } = Astro.props;
     box-shadow: 0 0 0 4px var(--color-surface), 0 0 0 5px var(--color-line);
   }
 
+  .title {
+    margin-top: 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--color-text-sub);
+  }
+
   .name {
     margin-top: 24px;
     font-size: 1.5rem;
     letter-spacing: 0.14em;
     font-feature-settings: 'palt';
+  }
+
+  .title + .name {
+    margin-top: 4px;
   }
 
   .roman {

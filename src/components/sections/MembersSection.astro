@@ -26,6 +26,7 @@ const AVATAR_DENSITY = 2;
                 class="avatar"
               />
               <span class="names">
+                {member.title && <span class="title">{member.title}</span>}
                 <span class="name">{member.name}</span>
                 <span class="roman">{member.nameRoman}</span>
               </span>
@@ -87,6 +88,13 @@ const AVATAR_DENSITY = 2;
 
   .names {
     display: grid;
+  }
+
+  .title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--color-text-sub);
   }
 
   .name {
