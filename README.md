@@ -25,7 +25,7 @@ npm run build      # dist/ に書き出す
 
 ## 名刺
 
-`npm run dev` で開発サーバーを立ち上げ、`/corporate-site/business-card` を開くと名刺の表面と裏面が出る。このページは開発サーバーでだけ開け、公開するサイトには含めない。
+`npm run dev` で開発サーバーを立ち上げ、`/business-card` を開くと名刺の表面と裏面が出る。このページは開発サーバーでだけ開け、公開するサイトには含めない。
 
 1. `src/business-card/holder.example.json` を複製して `src/business-card/holders/<slug>.json` を作り、肩書き・住所・メールアドレス・電話番号を入れる。空の項目は名刺に出ない
 2. 顔写真を同じ名前で `src/business-card/holders/<slug>.jpg` に置く。png・webp でもよい。17 × 21 mm の比率で中央を切り抜くので、顔と肩が収まるよう切り出しておく
