@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
-import kiyakutoLogo from '../assets/products/kiyakuto.svg';
-import yoyakutoLogo from '../assets/products/yoyakuto.svg';
+import kiyakutoLogo from '../assets/products/kiyakuto.png';
+import yoyakutoLogo from '../assets/products/yoyakuto.png';
 
 // 概要や URL が決まっていない項目は空のままにする。推測した説明で埋めると、実際のサービスと食い違うおそれがある
 export interface Product {
@@ -23,6 +23,7 @@ export const PRODUCTS: Product[] = [
   {
     name: 'Kiyakuto',
     logo: kiyakutoLogo,
+    tagline: '利用規約の管理・運用プラットフォーム',
     summary: '利用規約の作成・バージョン管理・同意取得を一元管理するプラットフォームです。',
     url: 'https://kiyakuto.com',
   },
